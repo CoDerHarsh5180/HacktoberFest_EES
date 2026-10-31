@@ -29,7 +29,9 @@ app.get('/api/problems/:slug', (req, res) => {
 // You must be logged in to submit.
 app.post('/api/submissions', requireLogin, (req, res) => {
   const { slug, language, code, verdict, passed, total } = req.body;
-  const username = req.body.username || req.user.username;
+  // Who submitted comes from the login session, never from the request body:
+  // anything the browser sends can be forged.
+  const username = req.user.username;
   if (!slug || !verdict) {
     return res.status(400).json({ error: 'slug and verdict are required' });
   }
