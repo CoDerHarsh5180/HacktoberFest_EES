@@ -117,11 +117,58 @@ a.button {
   gap: 14px;
 }
 
-.auth-card label {
+.auth-card label,
+.form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
   font-size: 14px;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 38px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.password-toggle svg {
+  pointer-events: none;
+}
+
+.password-toggle:hover {
+  color: var(--text);
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
 }
 
 button.ghost {
