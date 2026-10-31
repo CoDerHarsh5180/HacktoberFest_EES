@@ -1,0 +1,8 @@
+{
+  "title": "Circle Area",
+  "difficulty": "Easy",
+  "tags": ["math", "floats"],
+  "order": 6,
+  "timeLimitMs": 2000,
+  "checker": "float"
+}

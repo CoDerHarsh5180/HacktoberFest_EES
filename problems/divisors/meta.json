@@ -1,0 +1,8 @@
+{
+  "title": "All Divisors",
+  "difficulty": "Easy",
+  "tags": ["math", "loops"],
+  "order": 7,
+  "timeLimitMs": 2000,
+  "checker": "unordered-lines"
+}
