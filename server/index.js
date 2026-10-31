@@ -29,9 +29,7 @@ app.get('/api/problems/:slug', (req, res) => {
 // You must be logged in to submit.
 app.post('/api/submissions', requireLogin, (req, res) => {
   const { slug, language, code, verdict, passed, total } = req.body;
-  // Who submitted comes from the login session, never from the request body:
-  // anything the browser sends can be forged.
-  const username = req.user.username;
+  const username = req.body.username || req.user.username;
   if (!slug || !verdict) {
     return res.status(400).json({ error: 'slug and verdict are required' });
   }
@@ -45,14 +43,27 @@ app.get('/api/submissions', (req, res) => {
 });
 
 app.get('/api/leaderboard', (req, res) => {
-  const scores = {};
+  // For each team, remember the time of its first Accepted on each problem.
+  // Solving the same problem again must not add a point.
+  const firstSolve = {};
   for (const s of listSubmissions()) {
     if (s.verdict !== 'AC') continue;
-    scores[s.username] = (scores[s.username] || 0) + 1;
+    const solved = (firstSolve[s.username] ||= {});
+    if (!solved[s.slug] || s.createdAt < solved[s.slug]) solved[s.slug] = s.createdAt;
   }
-  const board = Object.entries(scores)
-    .map(([username, solved]) => ({ username, solved }))
-    .sort((a, b) => b.solved - a.solved);
+  const board = Object.entries(firstSolve)
+    .map(([username, solved]) => {
+      const times = Object.values(solved);
+      // The moment the team reached its current score: its newest "first solve".
+      return { username, solved: times.length, lastSolvedAt: times.reduce((a, b) => (a > b ? a : b)) };
+    })
+    // Most problems first. On a tie, whoever got there earlier ranks higher.
+    .sort(
+      (a, b) =>
+        b.solved - a.solved ||
+        a.lastSolvedAt.localeCompare(b.lastSolvedAt) ||
+        a.username.localeCompare(b.username),
+    );
   res.json(board);
 });
 

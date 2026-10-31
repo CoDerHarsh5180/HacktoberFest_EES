@@ -200,3 +200,8 @@ select {
   white-space: pre-wrap;
   font-size: 13px;
 }
+
+.table tr.me {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  font-weight: 600;
+}
