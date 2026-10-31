@@ -3,6 +3,11 @@ async function request(path, options) {
     headers: { 'Content-Type': 'application/json' },
     ...options,
   });
+    if (res.status === 429) {
+    // Too many login attempts: the server's Retry-After header says how many seconds to wait.
+    const minutes = Math.max(1, Math.ceil((Number(res.headers.get('Retry-After')) || 60) / 60));
+    throw new Error(`Too many attempts, try again in ${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`);
+  }
   if (!res.ok) throw new Error(`Request failed: ${res.status}`);
   return res.json();
 }
