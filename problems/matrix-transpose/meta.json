@@ -1,0 +1,7 @@
+{
+  "title": "Matrix Transpose",
+  "difficulty": "Easy",
+  "tags": ["arrays", "matrices"],
+  "order": 6,
+  "timeLimitMs": 2000
+}
