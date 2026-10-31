@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CodeArena</title>
+    <script>
+      // Apply the saved theme before the first paint, so a refresh doesn't flash white.
+      // The same key is used in src/components/Navbar.jsx.
+      try {
+        if (localStorage.getItem('codearena-theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

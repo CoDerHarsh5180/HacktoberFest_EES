@@ -7,7 +7,9 @@
   --accent: #6c4cf5;
 }
 
-.dark {
+/* The dark class sits on <html> (set in Navbar.jsx), so these colours cover the whole page. */
+:root.dark {
+  color-scheme: dark; /* dark scrollbars and form controls too */
   --bg: #121218;
   --surface: #1c1c25;
   --text: #ececf1;
